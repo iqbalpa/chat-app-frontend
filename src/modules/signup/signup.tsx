@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
@@ -57,6 +58,12 @@ const SignUpModule: React.FC = () => {
 						className="bg-emerald-500 px-4 py-2 rounded-lg text-white hover:bg-emerald-700 hover:cursor-pointer duration-100"
 					/>
 				</form>
+				<p className="text-sm mt-5">
+					already have an account?{" "}
+					<Link href="/signin" className="text-blue-500 hover:text-blue-700">
+						login
+					</Link>
+				</p>
 			</div>
 		</div>
 	);
