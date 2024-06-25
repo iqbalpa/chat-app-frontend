@@ -47,7 +47,7 @@ const SignInModule: React.FC = () => {
 						{errors.email && <span className="text-red-500 text-sm">This field is required</span>}
 					</div>
 					<div className="flex flex-col mb-4">
-						<p className="font-semibold mb-1 text-white">Passwrod</p>
+						<p className="font-semibold mb-1 text-white">Password</p>
 						<input
 							placeholder="password"
 							{...register("password", { required: true })}
