@@ -1,8 +1,11 @@
 "use client";
 
+import { signin } from "@/api/api";
 import Link from "next/link";
 import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 type SignInInputs = {
 	email: string;
@@ -16,9 +19,18 @@ const SignInModule: React.FC = () => {
 		watch,
 		formState: { errors },
 	} = useForm<SignInInputs>();
-	const onSubmit: SubmitHandler<SignInInputs> = (data) => console.log(data);
-
-	console.log(watch("email"));
+	const onSubmit: SubmitHandler<SignInInputs> = async (data) => {
+		try {
+			const res = await signin(data);
+			if (!res) {
+				toast.error("Login failed");
+				return;
+			}
+			toast.success("Login success");
+		} catch (error) {
+			toast.error("An error occurred during logging in");
+		}
+	};
 
 	return (
 		<div className="bg-mountain bg-cover bg-no-repeat h-screen flex justify-center items-center">
@@ -55,6 +67,7 @@ const SignInModule: React.FC = () => {
 					</Link>
 				</p>
 			</div>
+			<ToastContainer />
 		</div>
 	);
 };
