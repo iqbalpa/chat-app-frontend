@@ -22,12 +22,12 @@ const SignUpModule: React.FC = () => {
 	console.log(watch("email"));
 
 	return (
-		<div className="bg-forest h-screen flex justify-center items-center">
-			<div className="w-1/3 bg-white backdrop-filter backdrop-blur-md bg-opacity-20 border border-gray-200 flex flex-col justify-center items-center p-14">
-				<h1 className="text-xl font-bold uppercase mb-5">Sign Up</h1>
+		<div className="bg-mountain bg-cover bg-no-repeat h-screen flex justify-center items-center">
+			<div className="w-1/3 bg-white backdrop-filter backdrop-blur-md bg-opacity-10 border border-gray-200 flex flex-col justify-center items-center p-14">
+				<h1 className="text-white text-xl font-bold uppercase mb-5">Sign Up</h1>
 				<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col w-full">
 					<div className="flex flex-col mb-2">
-						<p className="font-semibold mb-1">Name</p>
+						<p className="text-white font-semibold mb-1">Name</p>
 						<input
 							placeholder="name"
 							{...register("name", { required: true })}
@@ -36,7 +36,7 @@ const SignUpModule: React.FC = () => {
 						{errors.name && <span className="text-red-500 text-sm">This field is required</span>}
 					</div>
 					<div className="flex flex-col mb-2">
-						<p className="font-semibold mb-1">Email</p>
+						<p className="text-white font-semibold mb-1">Email</p>
 						<input
 							placeholder="email"
 							{...register("email", { required: true })}
@@ -45,7 +45,7 @@ const SignUpModule: React.FC = () => {
 						{errors.email && <span className="text-red-500 text-sm">This field is required</span>}
 					</div>
 					<div className="flex flex-col mb-4">
-						<p className="font-semibold mb-1">Passwrod</p>
+						<p className="text-white font-semibold mb-1">Passwrod</p>
 						<input
 							placeholder="password"
 							{...register("password", { required: true })}
@@ -58,9 +58,9 @@ const SignUpModule: React.FC = () => {
 						className="bg-emerald-500 px-4 py-2 rounded-lg text-white hover:bg-emerald-700 hover:cursor-pointer duration-100"
 					/>
 				</form>
-				<p className="text-sm mt-5">
+				<p className="text-white text-sm mt-5">
 					already have an account?{" "}
-					<Link href="/signin" className="text-blue-500 hover:text-blue-700">
+					<Link href="/signin" className="text-green-500 hover:text-green-700">
 						login
 					</Link>
 				</p>
