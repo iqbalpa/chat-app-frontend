@@ -3,6 +3,10 @@
 import Link from "next/link";
 import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { signup } from "@/api/api";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/navigation";
 
 type SignUpInputs = {
 	name: string;
@@ -11,15 +15,28 @@ type SignUpInputs = {
 };
 
 const SignUpModule: React.FC = () => {
+	const router = useRouter();
 	const {
 		register,
 		handleSubmit,
 		watch,
 		formState: { errors },
 	} = useForm<SignUpInputs>();
-	const onSubmit: SubmitHandler<SignUpInputs> = (data) => console.log(data);
-
-	console.log(watch("email"));
+	const onSubmit: SubmitHandler<SignUpInputs> = async (data) => {
+		try {
+			const res = await signup(data);
+			if (!res) {
+				toast.error("Registration failed");
+				return;
+			}
+			toast.success("Registration success");
+			setTimeout(() => {
+				router.push("/signin");
+			}, 5000);
+		} catch (error) {
+			toast.error("An error occurred during registration");
+		}
+	};
 
 	return (
 		<div className="bg-mountain bg-cover bg-no-repeat h-screen flex justify-center items-center">
@@ -65,6 +82,7 @@ const SignUpModule: React.FC = () => {
 					</Link>
 				</p>
 			</div>
+			<ToastContainer />
 		</div>
 	);
 };
