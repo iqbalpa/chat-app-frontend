@@ -1,5 +1,4 @@
-import SignUpModule from "@/modules/signup/signup";
-
 export default function Home() {
-	return <SignUpModule />;
+	return <h1>Home Page</h1>;
 }
+``
