@@ -2,10 +2,14 @@
 
 import { signin } from "@/api/api";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/store/userSlice";
+import { decodeToken } from "@/utils/jwt-decode";
+import { useRouter } from "next/navigation";
 
 type SignInInputs = {
 	email: string;
@@ -13,12 +17,15 @@ type SignInInputs = {
 };
 
 const SignInModule: React.FC = () => {
+	const dispatch = useDispatch();
+	const router = useRouter();
 	const {
 		register,
 		handleSubmit,
 		watch,
 		formState: { errors },
 	} = useForm<SignInInputs>();
+
 	const onSubmit: SubmitHandler<SignInInputs> = async (data) => {
 		try {
 			const res = await signin(data);
@@ -26,7 +33,14 @@ const SignInModule: React.FC = () => {
 				toast.error("Login failed");
 				return;
 			}
+			console.log("decoding token...");
+			const user = decodeToken(res.access_token).user;
+			console.log(user);
+			dispatch(setUser(user));
 			toast.success("Login success");
+			setTimeout(() => {
+				router.push("/");
+			}, 5000);
 		} catch (error) {
 			toast.error("An error occurred during logging in");
 		}

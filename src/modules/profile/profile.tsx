@@ -1,6 +1,14 @@
+"use client"
+
 import React from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/userStore";
 
 const ProfileModule: React.FC = () => {
+	const user = useSelector((state: RootState) => state.user.user);
+	console.log("profile page");
+	console.log(user);
+
 	return (
 		<div className="min-h-screen flex justify-center items-start mt-20">
 			<div className="flex flex-col gap-4 justify-center items-center h-full w-2/3 border-slate-500 border-[1px] rounded-xl px-5 pb-10 shadow-lg">

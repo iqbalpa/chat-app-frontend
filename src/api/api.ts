@@ -11,7 +11,7 @@ export const signup = async (data: SignUpRequest) => {
 		password: data.password,
 	});
 	res = res.data;
-	console.log(`registered data:\n${JSON.stringify(res)}`);
+	// console.log(`registered data:\n${JSON.stringify(res)}`);
 	return res;
 };
 
@@ -23,7 +23,8 @@ export const signin = async (data: SignInRequest) => {
 	const result = res.data;
 	console.log(`logged in data:\n${JSON.stringify(result)}`);
 
-	const user = decodeToken(result.access_token).user;
-	console.log(`user:\n${JSON.stringify(user)}`);
+	// const user = decodeToken(result.access_token).user;
+	// console.log(`user:\n${JSON.stringify(user)}`);
+	// localStorage.setItem("user", JSON.stringify(user));
 	return result;
 };
