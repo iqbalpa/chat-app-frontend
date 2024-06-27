@@ -21,9 +21,9 @@ export const signin = async (data: SignInRequest) => {
 		password: data.password,
 	});
 	const result = res.data;
-	console.log(`logged in data:\n${result}`);
+	console.log(`logged in data:\n${JSON.stringify(result)}`);
 
 	const user = decodeToken(result.access_token).user;
-	console.log(`user:\n${user}`);
+	console.log(`user:\n${JSON.stringify(user)}`);
 	return result;
 };
