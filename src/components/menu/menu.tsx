@@ -27,7 +27,7 @@ const Menu: React.FC = () => {
 				<CommandList>
 					<CommandGroup heading="General">
 						{menuItemsGeneral.map((menuItem, index) => (
-							<CommandItem className="flex gap-2 cursor-pointer">
+							<CommandItem key={index} className="flex gap-2 cursor-pointer">
 								{menuItem.icon}
 								{menuItem.label}
 							</CommandItem>
@@ -36,7 +36,7 @@ const Menu: React.FC = () => {
 					<CommandSeparator />
 					<CommandGroup heading="Settings">
 						{menuItemsSettings.map((menuItem, index) => (
-							<CommandItem className="flex gap-2 cursor-pointer">
+							<CommandItem key={index} className="flex gap-2 cursor-pointer">
 								{menuItem.icon}
 								{menuItem.label}
 							</CommandItem>
