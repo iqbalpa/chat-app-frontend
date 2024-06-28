@@ -11,6 +11,7 @@ import { setUser } from "@/store/userSlice";
 import { decodeToken } from "@/utils/jwt-decode";
 import { useRouter } from "next/navigation";
 import { setCookie } from "cookies-next";
+import { Eye, Mail } from "lucide-react";
 
 type SignInInputs = {
 	email: string;
@@ -56,20 +57,26 @@ const SignInModule: React.FC = () => {
 				<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col w-full">
 					<div className="flex flex-col mb-2">
 						<p className="font-semibold mb-1 text-white">Email</p>
-						<input
-							placeholder="email"
-							{...register("email", { required: true })}
-							className="border-slate-400 border-[1px] rounded-md px-4 py-2"
-						/>
+						<div className="flex flex-row items-center">
+							<input
+								placeholder="email"
+								{...register("email", { required: true })}
+								className="border-slate-400 border-[1px] rounded-md px-4 py-2 mr-2 grow"
+							/>
+							<Mail color="#ffffff" size={35} />
+						</div>
 						{errors.email && <span className="text-red-500 text-sm">This field is required</span>}
 					</div>
 					<div className="flex flex-col mb-4">
 						<p className="font-semibold mb-1 text-white">Password</p>
-						<input
-							placeholder="password"
-							{...register("password", { required: true })}
-							className="border-slate-400 border-[1px] rounded-md px-4 py-2"
-						/>
+						<div className="flex flex-row items-center">
+							<input
+								placeholder="password"
+								{...register("password", { required: true })}
+								className="border-slate-400 border-[1px] rounded-md px-4 py-2 mr-2 grow"
+							/>
+							<Eye color="#ffffff" size={35} />
+						</div>
 						{errors.password && <span className="text-red-500 text-sm">This field is required</span>}
 					</div>
 					<input
