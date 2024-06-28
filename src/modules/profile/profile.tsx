@@ -1,13 +1,21 @@
-"use client"
+"use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/userStore";
+import { useRouter } from "next/navigation";
 
 const ProfileModule: React.FC = () => {
+	const router = useRouter();
 	const user = useSelector((state: RootState) => state.user.user);
 	console.log("profile page");
 	console.log(user);
+
+	useEffect(() => {
+		if (!user) {
+			router.replace("/signin");
+		}
+	}, []);
 
 	return (
 		<div className="min-h-screen flex justify-center items-start mt-20">
