@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { setUser } from "@/store/userSlice";
 import { decodeToken } from "@/utils/jwt-decode";
 import { useRouter } from "next/navigation";
+import { setCookie } from "cookies-next";
 
 type SignInInputs = {
 	email: string;
@@ -33,6 +34,8 @@ const SignInModule: React.FC = () => {
 				toast.error("Login failed");
 				return;
 			}
+			setCookie("accessToken", res.access_token); // store access token in cookie. use getCookie('accessToken')
+
 			console.log("decoding token...");
 			const user = decodeToken(res.access_token).user;
 			console.log(user);
