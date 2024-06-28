@@ -11,7 +11,7 @@ import { setUser } from "@/store/userSlice";
 import { decodeToken } from "@/utils/jwt-decode";
 import { useRouter } from "next/navigation";
 import { setCookie } from "cookies-next";
-import { Eye, Mail } from "lucide-react";
+import { Eye, EyeOff, Mail } from "lucide-react";
 
 type SignInInputs = {
 	email: string;
@@ -27,6 +27,11 @@ const SignInModule: React.FC = () => {
 		watch,
 		formState: { errors },
 	} = useForm<SignInInputs>();
+
+	const [isPassVisible, setIsPassVisible] = useState<boolean>(false);
+	const togglePassVisibility = () => {
+		setIsPassVisible(!isPassVisible);
+	};
 
 	const onSubmit: SubmitHandler<SignInInputs> = async (data) => {
 		try {
@@ -72,10 +77,25 @@ const SignInModule: React.FC = () => {
 						<div className="flex flex-row items-center">
 							<input
 								placeholder="password"
+								type={isPassVisible ? "text" : "password"}
 								{...register("password", { required: true })}
 								className="border-slate-400 border-[1px] rounded-md px-4 py-2 mr-2 grow"
 							/>
-							<Eye color="#ffffff" size={35} />
+							{isPassVisible ? (
+								<Eye
+									color="#ffffff"
+									size={35}
+									onClick={togglePassVisibility}
+									className="cursor-pointer"
+								/>
+							) : (
+								<EyeOff
+									color="#ffffff"
+									size={35}
+									onClick={togglePassVisibility}
+									className="cursor-pointer"
+								/>
+							)}
 						</div>
 						{errors.password && <span className="text-red-500 text-sm">This field is required</span>}
 					</div>
