@@ -8,7 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import LogoutButton from "../logoutButton/logoutButton";
 
-const antiSidebar: string[] = ["/signin", "signup"];
+const antiSidebar: string[] = ["/signin", "/signup"];
 
 const Sidebar: React.FC = () => {
 	const pathname = usePathname();
