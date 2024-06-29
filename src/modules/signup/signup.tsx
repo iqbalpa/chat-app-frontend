@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { signup } from "@/api/api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
+import { Eye, EyeOff, Mail, User } from "lucide-react";
 
 type SignUpInputs = {
 	name: string;
@@ -16,6 +17,12 @@ type SignUpInputs = {
 
 const SignUpModule: React.FC = () => {
 	const router = useRouter();
+
+	const [isPassVisible, setIsPassVisible] = useState<boolean>(false);
+	const togglePassVisibility = () => {
+		setIsPassVisible(!isPassVisible);
+	};
+
 	const {
 		register,
 		handleSubmit,
@@ -45,29 +52,53 @@ const SignUpModule: React.FC = () => {
 				<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col w-full">
 					<div className="flex flex-col mb-2">
 						<p className="text-white font-semibold mb-1">Name</p>
-						<input
-							placeholder="name"
-							{...register("name", { required: true })}
-							className="border-slate-400 border-[1px] rounded-md px-4 py-2"
-						/>
+						<div className="flex flex-row items-center">
+							<input
+								placeholder="name"
+								{...register("name", { required: true })}
+								className="border-slate-400 border-[1px] rounded-md px-4 py-2 mr-2 grow"
+							/>
+							<User color="#ffffff" size={35} />
+						</div>
 						{errors.name && <span className="text-red-500 text-sm">This field is required</span>}
 					</div>
 					<div className="flex flex-col mb-2">
 						<p className="text-white font-semibold mb-1">Email</p>
-						<input
-							placeholder="email"
-							{...register("email", { required: true })}
-							className="border-slate-400 border-[1px] rounded-md px-4 py-2"
-						/>
+						<div className="flex flex-row items-center">
+							<input
+								placeholder="email"
+								{...register("email", { required: true })}
+								className="border-slate-400 border-[1px] rounded-md px-4 py-2 mr-2 grow"
+							/>
+							<Mail color="#ffffff" size={35} />
+						</div>
 						{errors.email && <span className="text-red-500 text-sm">This field is required</span>}
 					</div>
 					<div className="flex flex-col mb-4">
 						<p className="text-white font-semibold mb-1">Password</p>
-						<input
-							placeholder="password"
-							{...register("password", { required: true })}
-							className="border-slate-400 border-[1px] rounded-md px-4 py-2"
-						/>
+						<div className="flex flex-row items-center">
+							<input
+								placeholder="password"
+								type={isPassVisible ? "text" : "password"}
+								{...register("password", { required: true })}
+								className="border-slate-400 border-[1px] rounded-md px-4 py-2 mr-2 grow"
+							/>
+							{isPassVisible ? (
+								<Eye
+									color="#ffffff"
+									size={35}
+									onClick={togglePassVisibility}
+									className="cursor-pointer"
+								/>
+							) : (
+								<EyeOff
+									color="#ffffff"
+									size={35}
+									onClick={togglePassVisibility}
+									className="cursor-pointer"
+								/>
+							)}
+						</div>
 						{errors.password && <span className="text-red-500 text-sm">This field is required</span>}
 					</div>
 					<input

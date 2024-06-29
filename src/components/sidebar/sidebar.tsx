@@ -5,7 +5,7 @@ import UserItem from "../userItem/userItem";
 import Menu from "../menu/menu";
 import { usePathname } from "next/navigation";
 
-const antiSidebar: string[] = ["/signin", "signup"];
+const antiSidebar: string[] = ["/signin", "/signup"];
 
 const Sidebar: React.FC = () => {
 	const pathname = usePathname();
