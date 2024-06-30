@@ -1,5 +1,12 @@
+"use client";
+
+import API from "@/api/api";
 import { Search, UserRoundPlus } from "lucide-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/userStore";
 
 interface User {
 	id: number;
@@ -7,20 +14,27 @@ interface User {
 	email: string;
 }
 
-const users: User[] = [
-	{ id: 1, name: "John Doe", email: "johndoe@example.com" },
-	{ id: 2, name: "Jane Smith", email: "janesmith@example.com" },
-	{ id: 3, name: "Alice Johnson", email: "alicejohnson@example.com" },
-	{ id: 4, name: "Bob Brown", email: "bobbrown@example.com" },
-	{ id: 5, name: "Charlie Davis", email: "charliedavis@example.com" },
-	{ id: 6, name: "David Wilson", email: "davidwilson@example.com" },
-	{ id: 7, name: "Emma Thompson", email: "emmathompson@example.com" },
-	{ id: 8, name: "Frank White", email: "frankwhite@example.com" },
-	{ id: 9, name: "Grace Lee", email: "gracelee@example.com" },
-	{ id: 10, name: "Henry Clark", email: "henryclark@example.com" },
-];
-
 const SearchModule: React.FC = () => {
+	const currentUser = useSelector((state: RootState) => state.user.user);
+	const [users, setUsers] = useState<User[]>([]);
+
+	useEffect(() => {
+		const fetchUsers = async () => {
+			try {
+				const res = await API.getAllUsers();
+				if (!res) {
+					toast.error("Failed to fetch users");
+					return;
+				}
+				console.log(`users:\n${JSON.stringify(res)}`);
+				setUsers(res);
+			} catch (error) {
+				toast.error("An error occurred during fetching users data");
+			}
+		};
+		fetchUsers();
+	}, []);
+
 	return (
 		<div className="p-10 min-h-screen flex flex-col items-center justify-start">
 			<div className="flex flex-row w-full relative">
@@ -31,21 +45,24 @@ const SearchModule: React.FC = () => {
 				/>
 			</div>
 			<div className="mt-10 grid grid-cols-3 gap-8">
-				{users.map((user, index) => (
-					<div
-						key={user.id}
-						className="flex flex-row items-center justify-between bg-slate-100 border-[1px] border-slate-200 shadow-lg py-10 px-7 rounded-xl hover:scale-105 duration-150"
-					>
-						<div className="flex flex-col">
-							<p className="font-semibold">{user.name}</p>
-							<p className="text-slate-700 text-sm">{user.email}</p>
+				{users
+					.filter((user) => user.email !== currentUser?.email)
+					.map((user) => (
+						<div
+							key={user.id}
+							className="flex flex-row items-center justify-between bg-slate-100 border-[1px] border-slate-200 shadow-lg py-10 px-7 rounded-xl hover:scale-105 duration-150"
+						>
+							<div className="flex flex-col">
+								<p className="font-semibold">{user.name}</p>
+								<p className="text-slate-700 text-sm">{user.email}</p>
+							</div>
+							<div className="bg-slate-300 bg-opacity-50 ml-4 p-1 rounded-md hover:cursor-pointer">
+								<UserRoundPlus />
+							</div>
 						</div>
-						<div className="bg-slate-300 bg-opacity-50 ml-4 p-1 rounded-md hover:cursor-pointer">
-							<UserRoundPlus />
-						</div>
-					</div>
-				))}
+					))}
 			</div>
+			<ToastContainer />
 		</div>
 	);
 };
