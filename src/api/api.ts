@@ -34,9 +34,15 @@ const getAllUsersPagination = async (currentPage: number) => {
 	return result;
 };
 
+const getUserCount = async (): Promise<number> => {
+	const count = await axios.get(`${BASE_URL}/users/count`);
+	return count.data;
+};
+
 export default {
 	signup,
 	signin,
 	getAllUsers,
 	getAllUsersPagination,
+	getUserCount,
 };

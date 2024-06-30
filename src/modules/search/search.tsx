@@ -27,7 +27,7 @@ const SearchModule: React.FC = () => {
 	const currentUser = useSelector((state: RootState) => state.user.user);
 	const [users, setUsers] = useState<User[]>([]);
 	const [currentPage, setCurrentPage] = useState<number>(1);
-	const MAX_PAGE = 5;
+	const [maxPage, setMaxPage] = useState<number>();
 
 	const handleClickPrev = () => {
 		setCurrentPage((prevPage) => {
@@ -39,13 +39,24 @@ const SearchModule: React.FC = () => {
 	};
 	const handleClickNext = () => {
 		setCurrentPage((prevPage) => {
-			if (prevPage === MAX_PAGE) {
-				return MAX_PAGE;
+			if (prevPage === maxPage) {
+				return maxPage;
 			}
 			return prevPage + 1;
 		});
 	};
 
+	useEffect(() => {
+		const fetchUserCount = async () => {
+			try {
+				const count = await API.getUserCount();
+				setMaxPage(Math.ceil(count / 9));
+			} catch (error) {
+				console.log("failed to get user count");
+			}
+		};
+		fetchUserCount();
+	}, []);
 	useEffect(() => {
 		const fetchUsers = async () => {
 			try {
@@ -60,7 +71,7 @@ const SearchModule: React.FC = () => {
 				toast.error("An error occurred during fetching users data");
 			}
 		};
-		fetchUsers();	
+		fetchUsers();
 	}, [currentPage]);
 
 	return (
@@ -103,7 +114,7 @@ const SearchModule: React.FC = () => {
 					<PaginationItem>
 						<PaginationLink>{currentPage}</PaginationLink>
 					</PaginationItem>
-					{currentPage < MAX_PAGE && (
+					{maxPage && currentPage < maxPage && (
 						<PaginationItem>
 							<PaginationEllipsis />
 						</PaginationItem>
