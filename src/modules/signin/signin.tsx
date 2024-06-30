@@ -1,6 +1,6 @@
 "use client";
 
-import { signin } from "@/api/api";
+import API from "@/api/api";
 import Link from "next/link";
 import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -35,7 +35,7 @@ const SignInModule: React.FC = () => {
 
 	const onSubmit: SubmitHandler<SignInInputs> = async (data) => {
 		try {
-			const res = await signin(data);
+			const res = await API.signin(data);
 			if (!res) {
 				toast.error("Login failed");
 				return;
