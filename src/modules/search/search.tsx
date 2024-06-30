@@ -16,6 +16,7 @@ import {
 	PaginationNext,
 	PaginationPrevious,
 } from "@/components/ui/pagination";
+import { getCookie } from "cookies-next";
 
 interface User {
 	id: number;
@@ -23,11 +24,14 @@ interface User {
 	email: string;
 }
 
+// TODO: use different icon for added friend
+
 const SearchModule: React.FC = () => {
 	const currentUser = useSelector((state: RootState) => state.user.user);
 	const [users, setUsers] = useState<User[]>([]);
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [maxPage, setMaxPage] = useState<number>();
+	const accessToken = getCookie("accessToken") as string;
 
 	const handleClickPrev = () => {
 		setCurrentPage((prevPage) => {
@@ -44,6 +48,18 @@ const SearchModule: React.FC = () => {
 			}
 			return prevPage + 1;
 		});
+	};
+	const handleAddFriend = async (id: number) => {
+		try {
+			const res = await API.addFriend(id, accessToken);
+			if (!res) {
+				toast.error("failed to add friend");
+				return null;
+			}
+			toast.success("added to friend list");
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	useEffect(() => {
@@ -95,9 +111,12 @@ const SearchModule: React.FC = () => {
 								<p className="font-semibold">{user.name}</p>
 								<p className="text-slate-700 text-sm">{user.email}</p>
 							</div>
-							<div className="bg-slate-300 bg-opacity-50 ml-4 p-1 rounded-md hover:cursor-pointer">
+							<button
+								onClick={() => handleAddFriend(user.id)}
+								className="bg-slate-300 bg-opacity-50 ml-4 p-1 rounded-md hover:cursor-pointer"
+							>
 								<UserRoundPlus />
-							</div>
+							</button>
 						</div>
 					))}
 			</div>

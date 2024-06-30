@@ -39,10 +39,22 @@ const getUserCount = async (): Promise<number> => {
 	return count.data;
 };
 
+const addFriend = async (id: number, accessToken: string) => {
+	const res = await axios.post(
+		`${BASE_URL}/users/friends`,
+		{
+			friendId: id,
+		},
+		{ headers: { Authorization: `Bearer ${accessToken}` } }
+	);
+	return res;
+};
+
 export default {
 	signup,
 	signin,
 	getAllUsers,
 	getAllUsersPagination,
 	getUserCount,
+	addFriend,
 };
