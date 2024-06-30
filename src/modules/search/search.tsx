@@ -7,6 +7,15 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/userStore";
+import {
+	Pagination,
+	PaginationContent,
+	PaginationEllipsis,
+	PaginationItem,
+	PaginationLink,
+	PaginationNext,
+	PaginationPrevious,
+} from "@/components/ui/pagination";
 
 interface User {
 	id: number;
@@ -17,11 +26,30 @@ interface User {
 const SearchModule: React.FC = () => {
 	const currentUser = useSelector((state: RootState) => state.user.user);
 	const [users, setUsers] = useState<User[]>([]);
+	const [currentPage, setCurrentPage] = useState<number>(1);
+	const MAX_PAGE = 5;
+
+	const handleClickPrev = () => {
+		setCurrentPage((prevPage) => {
+			if (prevPage === 1) {
+				return 1;
+			}
+			return prevPage - 1;
+		});
+	};
+	const handleClickNext = () => {
+		setCurrentPage((prevPage) => {
+			if (prevPage === MAX_PAGE) {
+				return MAX_PAGE;
+			}
+			return prevPage + 1;
+		});
+	};
 
 	useEffect(() => {
 		const fetchUsers = async () => {
 			try {
-				const res = await API.getAllUsers();
+				const res = await API.getAllUsersPagination(currentPage);
 				if (!res) {
 					toast.error("Failed to fetch users");
 					return;
@@ -32,11 +60,11 @@ const SearchModule: React.FC = () => {
 				toast.error("An error occurred during fetching users data");
 			}
 		};
-		fetchUsers();
-	}, []);
+		fetchUsers();	
+	}, [currentPage]);
 
 	return (
-		<div className="p-10 min-h-screen flex flex-col items-center justify-start">
+		<div className="pt-10 pb-5 px-10 min-h-screen flex flex-col items-center justify-start">
 			<div className="flex flex-row w-full relative">
 				<Search size={24} className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-500" />
 				<input
@@ -44,7 +72,7 @@ const SearchModule: React.FC = () => {
 					className="border-2 border-slate-300 active:border-slate-500 py-4 px-12 rounded-full grow"
 				/>
 			</div>
-			<div className="mt-10 grid grid-cols-3 gap-8">
+			<div className="mt-10 grid grid-cols-3 gap-8 grow">
 				{users
 					.filter((user) => user.email !== currentUser?.email)
 					.map((user) => (
@@ -62,6 +90,29 @@ const SearchModule: React.FC = () => {
 						</div>
 					))}
 			</div>
+			<Pagination className="mt-12">
+				<PaginationContent>
+					<PaginationItem className="hover:cursor-pointer">
+						<PaginationPrevious onClick={handleClickPrev} />
+					</PaginationItem>
+					{currentPage > 1 && (
+						<PaginationItem>
+							<PaginationEllipsis />
+						</PaginationItem>
+					)}
+					<PaginationItem>
+						<PaginationLink>{currentPage}</PaginationLink>
+					</PaginationItem>
+					{currentPage < MAX_PAGE && (
+						<PaginationItem>
+							<PaginationEllipsis />
+						</PaginationItem>
+					)}
+					<PaginationItem className="hover:cursor-pointer">
+						<PaginationNext onClick={handleClickNext} />
+					</PaginationItem>
+				</PaginationContent>
+			</Pagination>
 			<ToastContainer />
 		</div>
 	);

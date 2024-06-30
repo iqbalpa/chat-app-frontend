@@ -28,8 +28,15 @@ const getAllUsers = async () => {
 	return result;
 };
 
+const getAllUsersPagination = async (currentPage: number) => {
+	const res = await axios.get(`${BASE_URL}/users?skip=${currentPage}`);
+	const result = res.data;
+	return result;
+};
+
 export default {
 	signup,
 	signin,
 	getAllUsers,
+	getAllUsersPagination,
 };
