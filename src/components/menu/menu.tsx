@@ -11,7 +11,7 @@ interface IMenuItem {
 
 const menuItemsGeneral: IMenuItem[] = [
 	{ label: "Profile", path: "/", icon: <User /> },
-	{ label: "Search Friend", path: "/search", icon: <Search /> },
+	{ label: "Search", path: "/search", icon: <Search /> },
 	{ label: "Friends", path: "/friends", icon: <UsersRound /> },
 	{ label: "Inbox", path: "/inbox", icon: <Mail /> },
 ];
