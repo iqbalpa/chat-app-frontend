@@ -1,33 +1,15 @@
 "use client";
 
 import API from "@/api/api";
-import { Search, UserRoundPlus } from "lucide-react";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/userStore";
-import {
-	Pagination,
-	PaginationContent,
-	PaginationEllipsis,
-	PaginationItem,
-	PaginationLink,
-	PaginationNext,
-	PaginationPrevious,
-} from "@/components/ui/pagination";
 import { getCookie } from "cookies-next";
 import SearchBar from "@/components/searchBar/searchBar";
-import UserCard from "@/components/userCard/userCard";
 import UserList from "@/components/userList/userList";
-
-interface User {
-	id: number;
-	name: string;
-	email: string;
-}
-
-// TODO: use different icon for added friend
+import MyPagination from "@/components/pagination/MyPagination";
 
 const SearchModule: React.FC = () => {
 	const currentUser = useSelector((state: RootState) => state.user.user);
@@ -100,29 +82,12 @@ const SearchModule: React.FC = () => {
 			<SearchBar searchVal={searchVal} handleSearchValChange={handleSearchValChange} />
 			<UserList users={users} currentUser={currentUser} searchVal={searchVal} handleAddFriend={handleAddFriend} />
 			<div className="grow"></div>
-			<Pagination>
-				<PaginationContent>
-					<PaginationItem className="hover:cursor-pointer">
-						<PaginationPrevious onClick={handleClickPrev} />
-					</PaginationItem>
-					{currentPage > 1 && (
-						<PaginationItem>
-							<PaginationEllipsis />
-						</PaginationItem>
-					)}
-					<PaginationItem>
-						<PaginationLink>{currentPage}</PaginationLink>
-					</PaginationItem>
-					{maxPage && currentPage < maxPage && (
-						<PaginationItem>
-							<PaginationEllipsis />
-						</PaginationItem>
-					)}
-					<PaginationItem className="hover:cursor-pointer">
-						<PaginationNext onClick={handleClickNext} />
-					</PaginationItem>
-				</PaginationContent>
-			</Pagination>
+			<MyPagination
+				currentPage={currentPage}
+				maxPage={maxPage}
+				handleClickPrev={handleClickPrev}
+				handleClickNext={handleClickNext}
+			/>
 			<ToastContainer />
 		</div>
 	);
