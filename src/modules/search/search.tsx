@@ -2,7 +2,7 @@
 
 import API from "@/api/api";
 import { Search, UserRoundPlus } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
@@ -31,6 +31,7 @@ const SearchModule: React.FC = () => {
 	const [users, setUsers] = useState<User[]>([]);
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [maxPage, setMaxPage] = useState<number>();
+	const [searchVal, setSearchVal] = useState<string>("");
 	const accessToken = getCookie("accessToken") as string;
 
 	const handleClickPrev = () => {
@@ -61,6 +62,7 @@ const SearchModule: React.FC = () => {
 			console.log(error);
 		}
 	};
+	const handleSearchValChange = (e: ChangeEvent<HTMLInputElement>) => setSearchVal(e.target.value);
 
 	useEffect(() => {
 		const fetchUserCount = async () => {
@@ -91,17 +93,20 @@ const SearchModule: React.FC = () => {
 	}, [currentPage]);
 
 	return (
-		<div className="pt-10 pb-5 px-10 min-h-screen flex flex-col items-center justify-start">
+		<div className="pt-10 pb-8 px-10 min-h-screen flex flex-col items-center justify-start">
 			<div className="flex flex-row w-full relative">
 				<Search size={24} className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-500" />
 				<input
 					placeholder="Search user"
 					className="border-2 border-slate-300 active:border-slate-500 py-4 px-12 rounded-full grow"
+					value={searchVal}
+					onChange={handleSearchValChange}
 				/>
 			</div>
-			<div className="mt-10 grid grid-cols-3 gap-8 grow">
+			<div className="mt-10 grid grid-cols-3 gap-8">
 				{users
 					.filter((user) => user.email !== currentUser?.email)
+					.filter((user) => user.name.toLowerCase().includes(searchVal))
 					.map((user) => (
 						<div
 							key={user.id}
@@ -120,7 +125,8 @@ const SearchModule: React.FC = () => {
 						</div>
 					))}
 			</div>
-			<Pagination className="mt-12">
+			<div className="grow"></div>
+			<Pagination>
 				<PaginationContent>
 					<PaginationItem className="hover:cursor-pointer">
 						<PaginationPrevious onClick={handleClickPrev} />
