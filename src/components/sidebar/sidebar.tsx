@@ -3,7 +3,10 @@
 import React from "react";
 import UserItem from "../userItem/userItem";
 import Menu from "../menu/menu";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import LogoutButton from "../logoutButton/logoutButton";
 
 const antiSidebar: string[] = ["/signin", "/signup"];
 
@@ -19,6 +22,8 @@ const Sidebar: React.FC = () => {
 		<div className="flex flex-col gap-4 w-[300px] border-r-2 min-h-screen p-4">
 			<UserItem />
 			<Menu />
+			<LogoutButton />
+			<ToastContainer />
 		</div>
 	);
 };

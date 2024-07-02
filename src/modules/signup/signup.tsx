@@ -3,7 +3,7 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { signup } from "@/api/api";
+import API from "@/api/api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
@@ -31,7 +31,7 @@ const SignUpModule: React.FC = () => {
 	} = useForm<SignUpInputs>();
 	const onSubmit: SubmitHandler<SignUpInputs> = async (data) => {
 		try {
-			const res = await signup(data);
+			const res = await API.signup(data);
 			if (!res) {
 				toast.error("Registration failed");
 				return;

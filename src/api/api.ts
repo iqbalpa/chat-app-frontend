@@ -1,30 +1,60 @@
 import axios from "axios";
-import { SignUpRequest, SignUpResponse, SignInRequest, SignInResponse } from "@/constants/auth.constant";
-import { decodeToken } from "@/utils/jwt-decode";
+import { SignUpRequest, SignInRequest } from "@/constants/auth.constant";
 
 const BASE_URL: string = "http://localhost:3000";
 
-export const signup = async (data: SignUpRequest) => {
+const signup = async (data: SignUpRequest) => {
 	let res = await axios.post(`${BASE_URL}/auth/signup`, {
 		name: data.name,
 		email: data.email,
 		password: data.password,
 	});
 	res = res.data;
-	// console.log(`registered data:\n${JSON.stringify(res)}`);
 	return res;
 };
 
-export const signin = async (data: SignInRequest) => {
+const signin = async (data: SignInRequest) => {
 	const res = await axios.post(`${BASE_URL}/auth/signin`, {
 		email: data.email,
 		password: data.password,
 	});
 	const result = res.data;
-	console.log(`logged in data:\n${JSON.stringify(result)}`);
-
-	// const user = decodeToken(result.access_token).user;
-	// console.log(`user:\n${JSON.stringify(user)}`);
-	// localStorage.setItem("user", JSON.stringify(user));
 	return result;
+};
+
+const getAllUsers = async () => {
+	const res = await axios.get(`${BASE_URL}/users/`);
+	const result = res.data;
+	return result;
+};
+
+const getAllUsersPagination = async (currentPage: number) => {
+	const res = await axios.get(`${BASE_URL}/users?skip=${currentPage}`);
+	const result = res.data;
+	return result;
+};
+
+const getUserCount = async (): Promise<number> => {
+	const count = await axios.get(`${BASE_URL}/users/count`);
+	return count.data;
+};
+
+const addFriend = async (id: number, accessToken: string) => {
+	const res = await axios.post(
+		`${BASE_URL}/friends`,
+		{
+			friendId: id,
+		},
+		{ headers: { Authorization: `Bearer ${accessToken}` } }
+	);
+	return res;
+};
+
+export default {
+	signup,
+	signin,
+	getAllUsers,
+	getAllUsersPagination,
+	getUserCount,
+	addFriend,
 };
