@@ -41,7 +41,7 @@ const getUserCount = async (): Promise<number> => {
 
 const addFriend = async (id: number, accessToken: string) => {
 	const res = await axios.post(
-		`${BASE_URL}/users/friends`,
+		`${BASE_URL}/friends`,
 		{
 			friendId: id,
 		},
