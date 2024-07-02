@@ -63,7 +63,7 @@ const SearchModule: React.FC = () => {
 	useEffect(() => {
 		const fetchUsers = async () => {
 			try {
-				const res = await API.getAllUsersPagination(currentPage);
+				const res = await API.getAllUsersPagination((currentPage - 1) * 9);
 				if (!res) {
 					toast.error("Failed to fetch users");
 					return;
