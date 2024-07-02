@@ -10,6 +10,7 @@ import { getCookie } from "cookies-next";
 import SearchBar from "@/components/searchBar/searchBar";
 import UserList from "@/components/userList/userList";
 import MyPagination from "@/components/pagination/MyPagination";
+import { User } from "@/constants/user";
 
 const SearchModule: React.FC = () => {
 	const currentUser = useSelector((state: RootState) => state.user.user);
