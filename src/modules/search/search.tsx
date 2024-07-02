@@ -19,6 +19,7 @@ import {
 import { getCookie } from "cookies-next";
 import SearchBar from "@/components/searchBar/searchBar";
 import UserCard from "@/components/userCard/userCard";
+import UserList from "@/components/userList/userList";
 
 interface User {
 	id: number;
@@ -97,14 +98,7 @@ const SearchModule: React.FC = () => {
 	return (
 		<div className="pt-10 pb-8 px-10 min-h-screen flex flex-col items-center justify-start">
 			<SearchBar searchVal={searchVal} handleSearchValChange={handleSearchValChange} />
-			<div className="mt-10 grid grid-cols-3 gap-8">
-				{users
-					.filter((user) => user.email !== currentUser?.email)
-					.filter((user) => user.name.toLowerCase().includes(searchVal))
-					.map((user) => (
-						<UserCard user={user} handleAddFriend={handleAddFriend} />
-					))}
-			</div>
+			<UserList users={users} currentUser={currentUser} searchVal={searchVal} handleAddFriend={handleAddFriend} />
 			<div className="grow"></div>
 			<Pagination>
 				<PaginationContent>
