@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/pagination";
 import { getCookie } from "cookies-next";
 import SearchBar from "@/components/searchBar/searchBar";
+import UserCard from "@/components/userCard/userCard";
 
 interface User {
 	id: number;
@@ -101,21 +102,7 @@ const SearchModule: React.FC = () => {
 					.filter((user) => user.email !== currentUser?.email)
 					.filter((user) => user.name.toLowerCase().includes(searchVal))
 					.map((user) => (
-						<div
-							key={user.id}
-							className="flex flex-row items-center justify-between bg-slate-100 border-[1px] border-slate-200 shadow-lg py-10 px-7 rounded-xl hover:scale-105 duration-150"
-						>
-							<div className="flex flex-col">
-								<p className="font-semibold">{user.name}</p>
-								<p className="text-slate-700 text-sm">{user.email}</p>
-							</div>
-							<button
-								onClick={() => handleAddFriend(user.id)}
-								className="bg-slate-300 bg-opacity-50 ml-4 p-1 rounded-md hover:cursor-pointer"
-							>
-								<UserRoundPlus />
-							</button>
-						</div>
+						<UserCard user={user} handleAddFriend={handleAddFriend} />
 					))}
 			</div>
 			<div className="grow"></div>
