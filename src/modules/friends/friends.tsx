@@ -1,16 +1,44 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import { User } from "@/constants/user";
 import { BookUser, MailPlus } from "lucide-react";
-
-const users: User[] = [
-	{ id: 1, name: "Alice Smith", email: "alice.smith@example.com" },
-	{ id: 2, name: "Bob Johnson", email: "bob.johnson@example.com" },
-	{ id: 3, name: "Charlie Brown", email: "charlie.brown@example.com" },
-	{ id: 4, name: "Diana Ross", email: "diana.ross@example.com" },
-	{ id: 5, name: "Ethan Hunt", email: "ethan.hunt@example.com" },
-];
+import API from "@/api/api";
+import { getCookie } from "cookies-next";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/userStore";
 
 const FriendsModule: React.FC = () => {
+	const router = useRouter();
+	const user = useSelector((state: RootState) => state.user.user);
+	const [users, setUsers] = useState<User[]>([]);
+	const accessToken = getCookie("accessToken") as string;
+
+	useEffect(() => {
+		if (!user) {
+			router.replace("/signin");
+		}
+	}, []);
+
+	useEffect(() => {
+		const fetchFriends = async () => {
+			try {
+				const res = await API.getFriend(accessToken);
+				if (!res) {
+					toast.error("Failed to fetch friends");
+					return;
+				}
+				setUsers(res);
+			} catch (error) {
+				toast.error("An error occurred during fetching friends");
+			}
+		};
+		fetchFriends();
+	});
+
 	return (
 		<div className="flex flex-col items-center min-h-screen w-full p-10">
 			<div className="flex flex-row gap-2 items-center">
@@ -31,6 +59,7 @@ const FriendsModule: React.FC = () => {
 					</div>
 				))}
 			</div>
+			<ToastContainer />
 		</div>
 	);
 };
