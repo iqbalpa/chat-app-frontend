@@ -20,7 +20,7 @@ const InboxModule: React.FC = () => {
 		<div className="bg-white flex flex-col w-full min-h-screen">
 			{/* top */}
 			<div className=" flex flex-row items-center gap-10 px-6 py-4 border-b-2 border-slate-200">
-				<div className="rounded-lg p-1 hover:cursor-pointer hover:bg-slate-500/30 duration-100">
+				<div className="rounded-lg p-2 hover:cursor-pointer hover:bg-slate-500/30 duration-100">
 					<ArrowLeft />
 				</div>
 				<p className="font-bold text-2xl">Iqbal</p>
