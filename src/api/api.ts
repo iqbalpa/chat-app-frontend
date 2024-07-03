@@ -50,6 +50,11 @@ const addFriend = async (id: number, accessToken: string) => {
 	return res;
 };
 
+const getFriend = async (accessToken: string) => {
+	const res = await axios.get(`${BASE_URL}/friends`, { headers: { Authorization: `Bearer ${accessToken}` } });
+	return res.data;
+};
+
 export default {
 	signup,
 	signin,
@@ -57,4 +62,5 @@ export default {
 	getAllUsersPagination,
 	getUserCount,
 	addFriend,
+	getFriend,
 };
