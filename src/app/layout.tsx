@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Sidebar from "@/components/sidebar/sidebar";
 import UserProvider from "@/provider/userProvider";
+import { ToastContainer } from "react-toastify";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,6 +23,7 @@ export default function RootLayout({
 				<UserProvider>
 					<Sidebar />
 					<main className="ml-[300px] w-full h-full">{children}</main>
+					<ToastContainer />
 				</UserProvider>
 			</body>
 		</html>

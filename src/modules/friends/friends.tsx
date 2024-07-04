@@ -5,7 +5,7 @@ import { User } from "@/constants/user";
 import { BookUser, MailPlus } from "lucide-react";
 import API from "@/api/api";
 import { getCookie } from "cookies-next";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
@@ -59,7 +59,6 @@ const FriendsModule: React.FC = () => {
 					</div>
 				))}
 			</div>
-			<ToastContainer />
 		</div>
 	);
 };

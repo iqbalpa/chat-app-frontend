@@ -19,6 +19,18 @@ const messages: Message[] = [
 		name: "Alice",
 		text: "Hmm, that's a good idea. But, I think I cannot join you guys because I have a meeting this evening.",
 	},
+	{ name: "Me", text: "Ah, that is so unfortunate" },
+	{ name: "Charlie", text: "How about tomorrow instead?" },
+	{ name: "Alice", text: "It would be great" },
+	{ name: "Me", text: "Ok, then see you tomorrow you all" },
+	{ name: "Charlie", text: "Sure, looking forward to it!" },
+	{ name: "Alice", text: "I'll make sure to be there!" },
+	{ name: "Me", text: "Awesome! Let's decide the time then." },
+	{ name: "Charlie", text: "How about 6 PM?" },
+	{ name: "Alice", text: "6 PM works for me." },
+	{ name: "Me", text: "Perfect! See you all at 6 PM tomorrow." },
+	{ name: "Charlie", text: "Great, see you all then!" },
+	{ name: "Alice", text: "See you tomorrow!" },
 ];
 
 const InboxModule: React.FC = () => {
@@ -37,7 +49,7 @@ const InboxModule: React.FC = () => {
 	return (
 		<div className="bg-white flex flex-col w-full min-h-screen">
 			{/* top */}
-			<div className=" flex flex-row items-center gap-10 px-6 py-4 border-b-2 border-slate-200">
+			<div className="fixed w-full bg-white flex flex-row items-center gap-10 px-6 py-4 border-b-2 border-slate-200">
 				<div className="rounded-lg p-2 hover:cursor-pointer hover:bg-slate-500/30 duration-100">
 					<ArrowLeft />
 				</div>
@@ -45,7 +57,7 @@ const InboxModule: React.FC = () => {
 			</div>
 
 			{/* chat space */}
-			<div className="grow flex flex-col gap-1 p-2">
+			<div className="mt-[4.5rem] mb-[6rem]  grow flex flex-col gap-1 p-2">
 				{messages.map((message, index) => (
 					<div key={index} className={`flex ${message.name === "Me" ? "justify-end" : "justify-start"}`}>
 						<div
@@ -63,7 +75,7 @@ const InboxModule: React.FC = () => {
 			</div>
 
 			{/* chat input */}
-			<div className="flex flex-row items-center justify-center px-6 py-6 border-t-2 border-slate-200">
+			<div className="fixed bottom-0 w-full pr-[20rem] bg-white flex flex-row items-center justify-center px-6 py-6 border-t-2 border-slate-200">
 				<textarea
 					ref={textareaRef}
 					value={message}
@@ -73,7 +85,7 @@ const InboxModule: React.FC = () => {
 					placeholder="Type your message..."
 					rows={1}
 				/>
-				<div className="absolute right-8 rounded-lg p-1 hover:cursor-pointer hover:bg-slate-500/30 duration-100">
+				<div className="absolute rounded-lg right-[21rem] p-1 hover:cursor-pointer hover:bg-slate-500/30 duration-100">
 					<SendHorizontal />
 				</div>
 			</div>

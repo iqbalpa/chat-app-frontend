@@ -4,7 +4,7 @@ import API from "@/api/api";
 import Link from "next/link";
 import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/store/userSlice";
@@ -111,7 +111,6 @@ const SignInModule: React.FC = () => {
 					</Link>
 				</p>
 			</div>
-			<ToastContainer />
 		</div>
 	);
 };

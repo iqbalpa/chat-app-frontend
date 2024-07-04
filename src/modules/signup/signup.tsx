@@ -4,7 +4,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import API from "@/api/api";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff, Mail, User } from "lucide-react";
@@ -113,7 +113,6 @@ const SignUpModule: React.FC = () => {
 					</Link>
 				</p>
 			</div>
-			<ToastContainer />
 		</div>
 	);
 };

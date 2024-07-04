@@ -89,7 +89,7 @@ const SearchModule: React.FC = () => {
 				handleClickPrev={handleClickPrev}
 				handleClickNext={handleClickNext}
 			/>
-			<ToastContainer />
+			{/* <ToastContainer /> */}
 		</div>
 	);
 };
