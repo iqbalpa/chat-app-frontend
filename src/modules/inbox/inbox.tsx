@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect, ChangeEvent } from "react";
 import { ArrowLeft, SendHorizontal } from "lucide-react";
-import io, { Socket } from "socket.io-client";
+import io from "socket.io-client";
 
 interface Message {
 	name: string;
@@ -10,29 +10,25 @@ interface Message {
 }
 
 const InboxModule: React.FC = () => {
+	const socket = io("http://localhost:3000");
+
 	const [messages, setMessages] = useState<Message[]>([]);
 	const [message, setMessage] = useState<string>("");
-	const [socket, setSocket] = useState<Socket | null>(null);
 	const textareaRef = useRef<HTMLTextAreaElement>(null);
 
 	useEffect(() => {
-		const newSocket = io("http://localhost:3000");
-		setSocket(newSocket);
-		newSocket.on("message", (message: Message) => {
-			console.log("from server: ", message);
+		socket.on("message", (message: Message) => {
 			setMessages((prevMessages) => [...prevMessages, message]);
 		});
 		return () => {
-			if (socket) {
-				socket.disconnect();
-			}
+			socket.off("message");
 		};
 	}, []);
 
 	const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => setMessage(e.target.value);
 
 	const sendMessage = () => {
-		if (socket) {
+		if (message.trim() !== "") {
 			const newMessage: Message = { name: "Me", text: message };
 			socket.emit("createMessage", newMessage);
 			setMessage("");
