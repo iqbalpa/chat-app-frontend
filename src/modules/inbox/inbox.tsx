@@ -3,6 +3,8 @@
 import React, { useState, useRef, useEffect, ChangeEvent } from "react";
 import { ArrowLeft, SendHorizontal } from "lucide-react";
 import io from "socket.io-client";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/userStore";
 
 interface Message {
 	name: string;
@@ -11,6 +13,7 @@ interface Message {
 
 const InboxModule: React.FC = () => {
 	const socket = io("http://localhost:3000");
+	const user = useSelector((state: RootState) => state.user.user);
 
 	const [messages, setMessages] = useState<Message[]>([]);
 	const [message, setMessage] = useState<string>("");
@@ -28,8 +31,8 @@ const InboxModule: React.FC = () => {
 	const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => setMessage(e.target.value);
 
 	const sendMessage = () => {
-		if (message.trim() !== "") {
-			const newMessage: Message = { name: "Me", text: message };
+		if (user && message.trim() !== "") {
+			const newMessage: Message = { name: user?.name, text: message };
 			socket.emit("createMessage", newMessage);
 			setMessage("");
 		}
@@ -48,15 +51,18 @@ const InboxModule: React.FC = () => {
 			{/* chat space */}
 			<div className="mt-[4.5rem] mb-[6rem]  grow flex flex-col gap-1 p-2">
 				{messages.map((message, index) => (
-					<div key={index} className={`flex ${message.name === "Me" ? "justify-end" : "justify-start"}`}>
+					<div
+						key={index}
+						className={`flex ${message.name === user?.name ? "justify-end" : "justify-start"}`}
+					>
 						<div
 							className={`flex flex-col px-4 py-2 text-left ${
-								message.name === "Me"
+								message.name === user?.name
 									? "bg-slate-300 text-right rounded-tl-lg rounded-bl-lg rounded-tr-lg"
 									: "bg-sky-300 rounded-tr-lg rounded-br-lg rounded-tl-lg"
 							}`}
 						>
-							<p className="text-xs font-bold">{message.name}</p>
+							<p className="text-xs font-bold">{message.name === user?.name ? "Me" : message.name}</p>
 							<p>{message.text}</p>
 						</div>
 					</div>
