@@ -5,19 +5,37 @@ import { ArrowLeft, SendHorizontal } from "lucide-react";
 import io from "socket.io-client";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/userStore";
+import { useRouter } from "next/navigation";
+import API from "@/api/api";
+import { User } from "@/constants/user";
+import { getCookie } from "cookies-next";
 
 interface Message {
 	name: string;
 	text: string;
 }
 
-const InboxModule: React.FC = () => {
+const InboxModule: React.FC<{ friendId: string }> = ({ friendId }) => {
+	const router = useRouter();
+	if (!friendId) {
+		router.push("/friends");
+	}
 	const socket = io("http://localhost:3000");
 	const user = useSelector((state: RootState) => state.user.user);
+	const [friend, setFriend] = useState<User>();
+	const accessToken = getCookie("accessToken") as string;
 
 	const [messages, setMessages] = useState<Message[]>([]);
 	const [message, setMessage] = useState<string>("");
 	const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+	useEffect(() => {
+		const fetchUser = async () => {
+			const res = await API.getUserById(parseInt(friendId), accessToken);
+			setFriend(res);
+		};
+		fetchUser();
+	}, []);
 
 	useEffect(() => {
 		socket.on("message", (message: Message) => {
@@ -45,7 +63,7 @@ const InboxModule: React.FC = () => {
 				<div className="rounded-lg p-2 hover:cursor-pointer hover:bg-slate-500/30 duration-100">
 					<ArrowLeft />
 				</div>
-				<p className="font-bold text-2xl">Iqbal</p>
+				<p className="font-bold text-2xl">{friend?.name}</p>
 			</div>
 
 			{/* chat space */}

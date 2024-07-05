@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/userStore";
+import Link from "next/link";
 
 const FriendsModule: React.FC = () => {
 	const router = useRouter();
@@ -53,9 +54,9 @@ const FriendsModule: React.FC = () => {
 					>
 						<p>{user.name}</p>
 						<div className="w-3"></div>
-						<div className="bg-slate-300 p-2 rounded-full">
+						<Link href={`/inbox/${user.id}`} className="bg-slate-300 p-2 rounded-full">
 							<MailPlus />
-						</div>
+						</Link>
 					</div>
 				))}
 			</div>
