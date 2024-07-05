@@ -20,14 +20,15 @@ const InboxModule: React.FC<{ friendId: string }> = ({ friendId }) => {
 	if (!friendId) {
 		router.push("/friends");
 	}
+
 	const socket = io("http://localhost:3000");
 	const user = useSelector((state: RootState) => state.user.user);
-	const [friend, setFriend] = useState<User>();
 	const accessToken = getCookie("accessToken") as string;
+	const textareaRef = useRef<HTMLTextAreaElement>(null);
 
+	const [friend, setFriend] = useState<User>();
 	const [messages, setMessages] = useState<Message[]>([]);
 	const [message, setMessage] = useState<string>("");
-	const textareaRef = useRef<HTMLTextAreaElement>(null);
 
 	useEffect(() => {
 		const fetchUser = async () => {
