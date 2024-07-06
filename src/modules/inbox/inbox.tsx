@@ -15,13 +15,14 @@ interface Message {
 	text: string;
 }
 
+let socket: any;
+
 const InboxModule: React.FC<{ friendId: string }> = ({ friendId }) => {
 	const router = useRouter();
 	if (!friendId) {
 		router.push("/friends");
 	}
 
-	const socket = io("http://localhost:3000");
 	const user = useSelector((state: RootState) => state.user.user);
 	const accessToken = getCookie("accessToken") as string;
 	const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -39,6 +40,9 @@ const InboxModule: React.FC<{ friendId: string }> = ({ friendId }) => {
 	}, []);
 
 	useEffect(() => {
+		if (!socket) {
+      socket = io("http://localhost:3000");
+    }
 		socket.on("message", (message: Message) => {
 			setMessages((prevMessages) => [...prevMessages, message]);
 		});
