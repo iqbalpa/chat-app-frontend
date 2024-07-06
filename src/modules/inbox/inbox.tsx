@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect, ChangeEvent } from "react";
 import { ArrowLeft, SendHorizontal } from "lucide-react";
-import io from "socket.io-client";
+import io, { Socket } from "socket.io-client";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/userStore";
 import { useRouter } from "next/navigation";
@@ -13,9 +13,11 @@ import { getCookie } from "cookies-next";
 interface Message {
 	name: string;
 	text: string;
+	roomId: string;
+	friendRoomId: string;
 }
 
-let socket: any;
+let socket: Socket;
 
 const InboxModule: React.FC<{ friendId: string }> = ({ friendId }) => {
 	const router = useRouter();
@@ -31,18 +33,24 @@ const InboxModule: React.FC<{ friendId: string }> = ({ friendId }) => {
 	const [messages, setMessages] = useState<Message[]>([]);
 	const [message, setMessage] = useState<string>("");
 
+	const roomId: string = `${user?.id}-${friendId}`;
+	console.log("MY ROOM ID:", roomId);
+	const friendRoomId: string = `${friendId}-${user?.id}`;
+	console.log("FRIEND ROOM ID:", friendRoomId);
+
 	useEffect(() => {
-		const fetchUser = async () => {
+		const fetchFriend = async () => {
 			const res = await API.getUserById(parseInt(friendId), accessToken);
 			setFriend(res);
 		};
-		fetchUser();
+		fetchFriend();
 	}, []);
 
 	useEffect(() => {
 		if (!socket) {
-      socket = io("http://localhost:3000");
-    }
+			socket = io("http://localhost:3000");
+			socket.emit("joinRoom", { roomId: roomId });
+		}
 		socket.on("message", (message: Message) => {
 			setMessages((prevMessages) => [...prevMessages, message]);
 		});
@@ -55,7 +63,7 @@ const InboxModule: React.FC<{ friendId: string }> = ({ friendId }) => {
 
 	const sendMessage = () => {
 		if (user && message.trim() !== "") {
-			const newMessage: Message = { name: user?.name, text: message };
+			const newMessage: Message = { name: user?.name, text: message, roomId: roomId, friendRoomId };
 			socket.emit("createMessage", newMessage);
 			setMessage("");
 		}
