@@ -23,7 +23,7 @@ const signin = async (data: SignInRequest) => {
 };
 
 const getAllUsers = async () => {
-	const res = await axios.get(`${BASE_URL}/users/`);
+	const res = await axios.get(`${BASE_URL}/users/all`);
 	const result = res.data;
 	return result;
 };
