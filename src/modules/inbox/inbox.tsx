@@ -10,11 +10,18 @@ import API from "@/api/api";
 import { User } from "@/constants/user";
 import { getCookie } from "cookies-next";
 
-interface Message {
+interface MessageRequest {
 	name: string;
 	text: string;
 	roomId: string;
 	friendRoomId: string;
+}
+interface MessageResponse {
+	id: number;
+	name: string;
+	text: string;
+	roomId: string;
+	date: Date;
 }
 
 let socket: Socket;
@@ -30,13 +37,11 @@ const InboxModule: React.FC<{ friendId: string }> = ({ friendId }) => {
 	const textareaRef = useRef<HTMLTextAreaElement>(null);
 
 	const [friend, setFriend] = useState<User>();
-	const [messages, setMessages] = useState<Message[]>([]);
+	const [messages, setMessages] = useState<MessageResponse[]>([]);
 	const [message, setMessage] = useState<string>("");
 
 	const roomId: string = `${user?.id}-${friendId}`;
-	console.log("MY ROOM ID:", roomId);
 	const friendRoomId: string = `${friendId}-${user?.id}`;
-	console.log("FRIEND ROOM ID:", friendRoomId);
 
 	useEffect(() => {
 		const fetchFriend = async () => {
@@ -51,7 +56,7 @@ const InboxModule: React.FC<{ friendId: string }> = ({ friendId }) => {
 			socket = io("http://localhost:3000");
 			socket.emit("joinRoom", { roomId: roomId });
 		}
-		socket.on("message", (message: Message) => {
+		socket.on("message", (message: MessageResponse) => {
 			setMessages((prevMessages) => [...prevMessages, message]);
 		});
 		return () => {
@@ -63,7 +68,7 @@ const InboxModule: React.FC<{ friendId: string }> = ({ friendId }) => {
 
 	const sendMessage = () => {
 		if (user && message.trim() !== "") {
-			const newMessage: Message = { name: user?.name, text: message, roomId: roomId, friendRoomId };
+			const newMessage: MessageRequest = { name: user?.name, text: message, roomId: roomId, friendRoomId };
 			socket.emit("createMessage", newMessage);
 			setMessage("");
 		}
