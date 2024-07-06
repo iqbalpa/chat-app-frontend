@@ -62,7 +62,7 @@ const InboxModule: React.FC<{ friendId: string }> = ({ friendId }) => {
 		return () => {
 			socket.off("message");
 		};
-	}, []);
+	}, [user]);
 
 	const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => setMessage(e.target.value);
 
