@@ -5,11 +5,12 @@ import { User } from "@/constants/user";
 import { BookUser, MailPlus } from "lucide-react";
 import API from "@/api/api";
 import { getCookie } from "cookies-next";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/userStore";
+import Link from "next/link";
 
 const FriendsModule: React.FC = () => {
 	const router = useRouter();
@@ -53,13 +54,12 @@ const FriendsModule: React.FC = () => {
 					>
 						<p>{user.name}</p>
 						<div className="w-3"></div>
-						<div className="bg-slate-300 p-2 rounded-full">
+						<Link href={`/inbox/${user.id}`} className="bg-slate-300 p-2 rounded-full">
 							<MailPlus />
-						</div>
+						</Link>
 					</div>
 				))}
 			</div>
-			<ToastContainer />
 		</div>
 	);
 };

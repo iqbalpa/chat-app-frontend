@@ -4,7 +4,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import API from "@/api/api";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff, Mail, User } from "lucide-react";
@@ -46,7 +46,7 @@ const SignUpModule: React.FC = () => {
 	};
 
 	return (
-		<div className="bg-mountain bg-cover bg-no-repeat h-screen flex justify-center items-center">
+		<div className="-ml-[300px] bg-mountain bg-cover bg-no-repeat h-screen flex justify-center items-center">
 			<div className="w-1/3 bg-white backdrop-filter backdrop-blur-md bg-opacity-10 border border-gray-200 flex flex-col justify-center items-center p-14">
 				<h1 className="text-white text-xl font-bold uppercase mb-5">Sign Up</h1>
 				<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col w-full">
@@ -113,7 +113,6 @@ const SignUpModule: React.FC = () => {
 					</Link>
 				</p>
 			</div>
-			<ToastContainer />
 		</div>
 	);
 };

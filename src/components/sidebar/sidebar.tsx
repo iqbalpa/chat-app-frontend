@@ -3,8 +3,7 @@
 import React from "react";
 import UserItem from "../userItem/userItem";
 import Menu from "../menu/menu";
-import { usePathname, useRouter } from "next/navigation";
-import { ToastContainer, toast } from "react-toastify";
+import { usePathname } from "next/navigation";
 import "react-toastify/dist/ReactToastify.css";
 import LogoutButton from "../logoutButton/logoutButton";
 
@@ -19,11 +18,10 @@ const Sidebar: React.FC = () => {
 	}
 
 	return (
-		<div className="flex flex-col gap-4 w-[300px] border-r-2 min-h-screen p-4">
+		<div className="fixed flex flex-col gap-4 w-[300px] border-r-2 min-h-screen p-4">
 			<UserItem />
 			<Menu />
 			<LogoutButton />
-			<ToastContainer />
 		</div>
 	);
 };

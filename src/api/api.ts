@@ -34,6 +34,12 @@ const getAllUsersPagination = async (currentPage: number) => {
 	return result;
 };
 
+const getUserById = async (id: number, accessToken: string) => {
+	const res = await axios.get(`${BASE_URL}/users/${id}`, { headers: { Authorization: `Bearer ${accessToken}` } });
+	const result = res.data;
+	return result;
+};
+
 const getUserCount = async (): Promise<number> => {
 	const count = await axios.get(`${BASE_URL}/users/count`);
 	return count.data;
@@ -60,6 +66,7 @@ export default {
 	signin,
 	getAllUsers,
 	getAllUsersPagination,
+	getUserById,
 	getUserCount,
 	addFriend,
 	getFriend,
