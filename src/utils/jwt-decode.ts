@@ -14,8 +14,6 @@ interface DecodedToken {
 }
 
 export const decodeToken = (accessToken: string) => {
-	console.log(`token:\n${accessToken}`);
 	const decoded = jwtDecode<DecodedToken>(accessToken);
-	console.log(`decoded token:\n${JSON.stringify(decoded)}`);
 	return decoded;
 };

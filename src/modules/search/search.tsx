@@ -15,6 +15,7 @@ import { User } from "@/constants/user";
 const SearchModule: React.FC = () => {
 	const currentUser = useSelector((state: RootState) => state.user.user);
 	const [users, setUsers] = useState<User[]>([]);
+	const [allUsers, setAllUsers] = useState<User[]>([]);
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [maxPage, setMaxPage] = useState<number>();
 	const [searchVal, setSearchVal] = useState<string>("");
@@ -62,6 +63,22 @@ const SearchModule: React.FC = () => {
 		fetchUserCount();
 	}, []);
 	useEffect(() => {
+		const fetchAllUsers = async () => {
+			try {
+				const res = await API.getAllUsers();
+				if (!res) {
+					toast.error("Failed to fetch users");
+					return;
+				}
+				setAllUsers(res);
+				console.log("all users fetched");
+			} catch (error) {
+				toast.error("An error occurred during fetching users data");
+			}
+		};
+		fetchAllUsers();
+	}, [currentPage]);
+	useEffect(() => {
 		const fetchUsers = async () => {
 			try {
 				const res = await API.getAllUsersPagination((currentPage - 1) * 9);
@@ -69,8 +86,8 @@ const SearchModule: React.FC = () => {
 					toast.error("Failed to fetch users");
 					return;
 				}
-				console.log(`users:\n${JSON.stringify(res)}`);
 				setUsers(res);
+				console.log("users pagination fetched");
 			} catch (error) {
 				toast.error("An error occurred during fetching users data");
 			}
@@ -81,7 +98,13 @@ const SearchModule: React.FC = () => {
 	return (
 		<div className="pt-10 pb-8 px-10 min-h-screen flex flex-col items-center justify-start">
 			<SearchBar searchVal={searchVal} handleSearchValChange={handleSearchValChange} />
-			<UserList users={users} currentUser={currentUser} searchVal={searchVal} handleAddFriend={handleAddFriend} />
+			<UserList
+				users={users}
+				allUsers={allUsers}
+				currentUser={currentUser}
+				searchVal={searchVal}
+				handleAddFriend={handleAddFriend}
+			/>
 			<div className="grow"></div>
 			<MyPagination
 				currentPage={currentPage}

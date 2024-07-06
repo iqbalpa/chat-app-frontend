@@ -15,7 +15,7 @@ import Link from "next/link";
 const FriendsModule: React.FC = () => {
 	const router = useRouter();
 	const user = useSelector((state: RootState) => state.user.user);
-	const [users, setUsers] = useState<User[]>([]);
+	const [friends, setFriends] = useState<User[]>([]);
 	const accessToken = getCookie("accessToken") as string;
 
 	useEffect(() => {
@@ -32,7 +32,7 @@ const FriendsModule: React.FC = () => {
 					toast.error("Failed to fetch friends");
 					return;
 				}
-				setUsers(res);
+				setFriends(res);
 			} catch (error) {
 				toast.error("An error occurred during fetching friends");
 			}
@@ -47,18 +47,21 @@ const FriendsModule: React.FC = () => {
 				<BookUser />
 			</div>
 			<div className="mt-8 grid grid-cols-4 gap-5">
-				{users.map((user, index) => (
-					<div
-						key={user.id}
-						className="flex flex-row justify-between items-center bg-slate-200 px-6 py-4 rounded-lg hover:cursor-pointer hover:scale-105 duration-200 drop-shadow-lg"
-					>
-						<p>{user.name}</p>
-						<div className="w-3"></div>
-						<Link href={`/inbox/${user.id}`} className="bg-slate-300 p-2 rounded-full">
-							<MailPlus />
-						</Link>
-					</div>
-				))}
+				{friends.map(
+					(friend, index) =>
+						friend.email !== user?.email && (
+							<div
+								key={friend.id}
+								className="flex flex-row justify-between items-center bg-slate-200 px-6 py-4 rounded-lg hover:cursor-pointer hover:scale-105 duration-200 drop-shadow-lg"
+							>
+								<p>{friend.name}</p>
+								<div className="w-3"></div>
+								<Link href={`/inbox/${friend.id}`} className="bg-slate-300 p-2 rounded-full">
+									<MailPlus />
+								</Link>
+							</div>
+						)
+				)}
 			</div>
 		</div>
 	);
