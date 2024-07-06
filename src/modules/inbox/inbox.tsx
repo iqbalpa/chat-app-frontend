@@ -49,20 +49,24 @@ const InboxModule: React.FC<{ friendId: string }> = ({ friendId }) => {
 			setFriend(res);
 		};
 		fetchFriend();
-	}, []);
+	}, [user, friendId]);
 
 	useEffect(() => {
 		if (!socket) {
 			socket = io("http://localhost:3000");
-			socket.emit("joinRoom", { roomId: roomId });
 		}
+		socket.emit("joinRoom", { roomId: roomId });
+		socket.emit("findHistoryMessages", { roomId: roomId });
+		socket.on("history", (messages: MessageResponse[]) => {
+			setMessages(messages);
+		});
 		socket.on("message", (message: MessageResponse) => {
 			setMessages((prevMessages) => [...prevMessages, message]);
 		});
 		return () => {
 			socket.off("message");
 		};
-	}, [user]);
+	}, [roomId]);
 
 	const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => setMessage(e.target.value);
 
