@@ -9,20 +9,7 @@ import { useRouter } from "next/navigation";
 import API from "@/api/api";
 import { User } from "@/constants/user";
 import { getCookie } from "cookies-next";
-
-interface MessageRequest {
-	name: string;
-	text: string;
-	roomId: string;
-	friendRoomId: string;
-}
-interface MessageResponse {
-	id: number;
-	name: string;
-	text: string;
-	roomId: string;
-	date: Date;
-}
+import { MessageRequest, MessageResponse } from "@/constants/message.constant";
 
 let socket: Socket;
 

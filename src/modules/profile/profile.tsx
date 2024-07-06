@@ -8,8 +8,6 @@ import { useRouter } from "next/navigation";
 const ProfileModule: React.FC = () => {
 	const router = useRouter();
 	const user = useSelector((state: RootState) => state.user.user);
-	console.log("profile page");
-	console.log(user);
 
 	useEffect(() => {
 		if (!user) {
