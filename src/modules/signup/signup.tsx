@@ -39,7 +39,7 @@ const SignUpModule: React.FC = () => {
 			toast.success("Registration success");
 			setTimeout(() => {
 				router.push("/signin");
-			}, 5000);
+			}, 1500);
 		} catch (error) {
 			toast.error("An error occurred during registration");
 		}
