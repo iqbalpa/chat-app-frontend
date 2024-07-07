@@ -15,7 +15,7 @@ const LogoutButton: React.FC = () => {
 		toast.success("Logged out");
 		setTimeout(() => {
 			router.push("/signin");
-		}, 3000);
+		}, 500);
 	};
 
 	return (

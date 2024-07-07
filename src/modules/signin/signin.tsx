@@ -49,7 +49,7 @@ const SignInModule: React.FC = () => {
 			toast.success("Login success");
 			setTimeout(() => {
 				router.push("/");
-			}, 5000);
+			}, 1500);
 		} catch (error) {
 			toast.error("An error occurred during logging in");
 		}
