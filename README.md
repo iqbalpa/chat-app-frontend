@@ -14,4 +14,24 @@ https://github.com/iqbalpa/chat-app-frontend/assets/79355631/3a7b299a-9f08-4b9f-
 6. History chat. Your chat and your friends are stored in the database.
 
 ## Getting Started
-Cooming soon ...
+You can find the backend repository [here](https://github.com/iqbalpa/chat-app-backend)
+1. Run the backend application 
+2. Clone this frontend repository `git clone https://github.com/iqbalpa/chat-app-frontend.git`
+3. Install the required packages
+```
+npm install
+# or
+yarn install
+# or
+pnpm install
+```
+4. Run the frontend application
+```
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+```
+5. Visit `localhost:3001`
+
