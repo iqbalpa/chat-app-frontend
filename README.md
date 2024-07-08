@@ -18,7 +18,7 @@ You can find the backend repository [here](https://github.com/iqbalpa/chat-app-b
 1. Run the backend application 
 2. Clone this frontend repository `git clone https://github.com/iqbalpa/chat-app-frontend.git`
 3. Install the required packages
-```
+```bash
 npm install
 # or
 yarn install
@@ -26,7 +26,7 @@ yarn install
 pnpm install
 ```
 4. Run the frontend application
-```
+```bash
 npm run dev
 # or
 yarn dev
