@@ -38,7 +38,7 @@ const InboxModule: React.FC<{ friendId: string }> = ({ friendId }) => {
 			setFriend(res);
 		};
 		fetchFriend();
-	}, [user, friendId]);
+	}, [user, friendId, accessToken]);
 
 	useEffect(() => {
 		if (!socket) {

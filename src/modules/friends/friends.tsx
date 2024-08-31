@@ -22,7 +22,7 @@ const FriendsModule: React.FC = () => {
 		if (!user) {
 			router.replace("/signin");
 		}
-	}, []);
+	}, [user, router]);
 
 	useEffect(() => {
 		const fetchFriends = async () => {

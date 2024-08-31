@@ -13,7 +13,7 @@ const ProfileModule: React.FC = () => {
 		if (!user) {
 			router.replace("/signin");
 		}
-	}, []);
+	}, [router, user]);
 
 	return (
 		<div className="min-h-screen flex justify-center items-start mt-20">

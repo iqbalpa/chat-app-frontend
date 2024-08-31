@@ -17,11 +17,11 @@ const UserList: React.FC<IUserList> = ({ users, allUsers, currentUser, searchVal
 				? users
 						.filter((user) => user.email !== currentUser?.email)
 						.filter((user) => user.name.toLowerCase().includes(searchVal))
-						.map((user) => <UserCard user={user} handleAddFriend={handleAddFriend} />)
+						.map((user) => <UserCard key={user.id} user={user} handleAddFriend={handleAddFriend} />)
 				: allUsers
 						.filter((user) => user.email !== currentUser?.email)
 						.filter((user) => user.name.toLowerCase().includes(searchVal))
-						.map((user) => <UserCard user={user} handleAddFriend={handleAddFriend} />)}
+						.map((user) => <UserCard key={user.id} user={user} handleAddFriend={handleAddFriend} />)}
 		</div>
 	);
 };

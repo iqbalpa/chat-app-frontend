@@ -61,7 +61,7 @@ const getFriend = async (accessToken: string) => {
 	return res.data;
 };
 
-export default {
+const api = {
 	signup,
 	signin,
 	getAllUsers,
@@ -71,3 +71,5 @@ export default {
 	addFriend,
 	getFriend,
 };
+
+export default api;
